@@ -25,7 +25,7 @@ const startServer = () => {
         silence.save((err, result) => {
             if (err)
                 return console.log(err)
-            console.log(`result ==> ${result}`);
+            console.log(`result with volumes ==> ${result}`);
         })
 
     })
