@@ -3,6 +3,7 @@ version: '3'
 services:
   api:
     build: ./api
+    container_name: node-docker-api
     command: npm run start
     restart: unless-stopped
     ports:
@@ -14,11 +15,31 @@ services:
     depends_on:
       - api_db
   
+  auth:
+    build: ./auth
+    container_name: node-docker-auth
+    command: npm run start
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - HOST=http://node-docker.com
+      - MONGO_URL=mongodb://auth_db:27017/auth
+  
+  auth_db:
+    image: mongo:latest
+    container_name: node-docker-auth_db
+    volumes:
+      - mongodb_auth:/data/db
+  
   api_db:
     image: mongo:latest
+    container_name: node-docker-api_db
     volumes:
-      - api_db_data:/data/db
+      - mongodb_api:/data/db
 
 
 volumes:
-  api_db_data:
+  mongodb_api:
+  mongodb_auth:
