@@ -8,14 +8,16 @@ services:
     #   - "3000:3000"
     restart: unless-stopped
     command: serve -s build -l 3000
+    networks:
+      - node-docker-network
 
   api:
     build: ./api
     container_name: node-docker-api
     command: npm run start
     restart: unless-stopped
-    ports:
-      - "3001:3001"
+    # ports:
+    #   - "3001:3001"
     environment:
       - PORT=3001
       - HOST=http://api-service.com
@@ -23,32 +25,41 @@ services:
       - AUTH_API_URL=http://auth:3002/api
     depends_on:
       - api_db
+    networks:
+      - node-docker-network
   
   auth:
     build: ./auth
     container_name: node-docker-auth
     command: npm run start
     restart: unless-stopped
-    # ports:
-    #   - "3002:3002"
+    ports:
+      - "3002:3002"
     environment:
       - PORT=3002
       - HOST=http://node-docker.com
       - MONGO_URL=mongodb://auth_db:27017/auth
+      - API_URL=http://api:3001/api
     depends_on:
       - auth_db
+    networks:
+      - node-docker-network
   
   auth_db:
     image: mongo:latest
     container_name: node-docker-auth_db
     volumes:
       - mongodb_auth:/data/db
+    networks:
+      - node-docker-network
   
   api_db:
     image: mongo:latest
     container_name: node-docker-api_db
     volumes:
       - mongodb_api:/data/db
+    networks:
+      - node-docker-network
   
   nginx:
     image: nginx:stable-alpine
@@ -59,8 +70,14 @@ services:
       - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
     depends_on:
       - frontend
+    networks:
+      - node-docker-network
 
 
 volumes:
   mongodb_api:
   mongodb_auth:
+
+networks:
+  node-docker-network:
+    driver: bridge

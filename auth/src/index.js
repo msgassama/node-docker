@@ -1,6 +1,6 @@
 const express = require('express')
-const mongoose = require('mongoose')
-const {port, host, db} = require('./config')
+const axios = require('axios')
+const {port, host, db, apiUrl} = require('./config')
 const {connectDb} = require('./helpers/db')
 
 const app = express()
@@ -16,6 +16,15 @@ app.get('/api/currentUser', (req, res) => {
         id:"1234",
         email:"user@mail.com"
     })
+})
+
+app.get('/testwithapidata', (req, res) => {
+    axios.get(`${apiUrl}/testapidata`)
+        .then(response => {
+            res.json({
+                testapidata: response.data.testapidata
+            })
+        })
 })
 
 const startServer = () => {
