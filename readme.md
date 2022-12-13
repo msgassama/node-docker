@@ -12,4 +12,5 @@
     ``` shell
         docker-compose up --build
     ```
+5. ✅ NGINX service
     
