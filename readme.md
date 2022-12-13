@@ -14,3 +14,4 @@
     ```
 5. ✅ NGINX service
 6. ✅ Proxying API requests    
+7. ✅ Frontend proxy 
