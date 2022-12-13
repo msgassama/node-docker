@@ -11,6 +11,13 @@ app.get('/test', (req, res) => {
     res.send("Our authentication server is working correctly")
 })
 
+app.get('/api/currentUser', (req, res) => {
+    res.json({
+        id:"1234",
+        email:"user@mail.com"
+    })
+})
+
 const startServer = () => {
     app.listen(port, () => {
         console.log(`Started authentication service on port ${port}`)

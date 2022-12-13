@@ -13,4 +13,4 @@
         docker-compose up --build
     ```
 5. ✅ NGINX service
-    
+6. ✅ Proxying API requests    
