@@ -6,11 +6,11 @@
 4. ✅ Running frontend
     - development environment
     ``` shell
-        docker-compose -f docker-compose.yml -f docker-compose.developmentyml up --build
+    docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
     ```
     - production environment
     ``` shell
-        docker-compose up --build
+    docker-compose up --build
     ```
 5. ✅ NGINX service
 6. ✅ Proxying API requests    
